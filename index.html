@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Tetris</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using a cute rounded font -->
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Outfit:wght@300;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-pattern"></div>
+
+    <!-- Cats decorations -->
+    <div class="cat-decoration cat-left"></div>
+    <div class="cat-decoration cat-right"></div>
+
+    <div class="game-container">
+        <!-- New Header Layout for Symmetry -->
+        <div class="header-row">
+            <button id="sound-btn" class="icon-btn">🔊 Sound On</button>
+            <header>
+                <h1 id="title-text">고양이 테트리스</h1>
+            </header>
+            <div style="display:flex; gap:10px;">
+                <button id="music-style-btn" class="icon-btn">🎸 Real Music</button>
+                <button id="lang-btn" class="icon-btn">EN</button>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <div class="left-panel">
+                <div class="wood-panel hold-panel">
+                    <h3 id="label-hold">HOLD!</h3>
+                    <canvas id="hold-canvas" width="150" height="150"></canvas>
+                </div>
+
+                <div class="wood-panel score-panel">
+                    <h3 id="label-score">SCORE</h3>
+                    <div id="score">0</div>
+                    <h3 id="label-level">LEVEL</h3>
+                    <div id="level">1</div>
+                    <h3 id="label-lines">LINES</h3>
+                    <div id="lines">0</div>
+                </div>
+            </div>
+
+            <div class="game-board-container">
+                <div class="cat-ears"></div>
+
+                <!-- MASCOT CANVAS -->
+                <canvas id="mascot-canvas" width="120" height="100" class="mascot-overlay"></canvas>
+
+                <canvas id="tetris" width="360" height="600"></canvas>
+
+                <div id="game-start" class="overlay">
+                    <div class="cat-face-big"></div>
+                    <button id="start-btn" class="cat-btn">GAME START</button>
+                </div>
+
+                <div id="game-over" class="overlay hidden">
+                    <h2 id="game-over-title">GAME OVER</h2>
+                    <p class="final-score-display">Score: <span id="final-score">0</span></p>
+                    <button id="restart-btn" class="cat-btn">TRY AGAIN</button>
+                </div>
+
+                <div id="pause-screen" class="overlay hidden">
+                    <h2 id="pause-title">PAUSED</h2>
+                    <button id="resume-btn" class="cat-btn">RESUME</button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="wood-panel next-panel">
+                    <h3 id="label-next">NEXT</h3>
+                    <canvas id="next-canvas" width="150" height="150"></canvas>
+                </div>
+
+                <div class="wood-panel controls-info">
+                    <h3 id="label-controls">CONTROLS</h3>
+                    <ul>
+                        <li><span>← →</span> <span id="ctrl-move">Move</span></li>
+                        <li><span>↑</span> <span id="ctrl-rotate">Rotate</span></li>
+                        <li><span>↓</span> <span id="ctrl-soft">Soft Drop</span></li>
+                        <li><span>Space</span> <span id="ctrl-hard">Hard Drop</span></li>
+                        <li><span>C</span> <span id="ctrl-hold">Hold</span></li>
+                        <li><span>P</span> <span id="ctrl-pause">Pause</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="literal.js"></script>
+    <script src="sound.js"></script>
+    <script src="mascot.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

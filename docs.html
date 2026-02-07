@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Tetris - 개발 문서 (Development Documentation)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Outfit:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <style>
+        :root {
+            --primary: #ffab91;
+            --secondary: #8d6e63;
+            --bg: #fdf6e3;
+            --code-bg: #1e1e1e;
+            --text: #3e2723;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 20px;
+            border-bottom: 4px dashed var(--secondary);
+        }
+
+        h1 {
+            font-family: 'Gaegu', cursive;
+            font-size: 4rem;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-family: 'Gaegu', cursive;
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-top: 50px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #5d4037;
+            margin-top: 30px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(255, 171, 145, 0.2);
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #d84315;
+        }
+
+        pre {
+            border-radius: 10px;
+            padding: 20px !important;
+            margin: 20px 0 !important;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+
+        li::before {
+            content: '🐱';
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .highlight-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffca28;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        nav {
+            background: white;
+            padding: 15px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: bold;
+            margin: 0 15px;
+            font-family: 'Gaegu', cursive;
+            font-size: 1.2rem;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .img-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: #888;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>고양이 테트리스 개발 백서</h1>
+            <div class="subtitle">Cat Tetris: From Concept to Implementation</div>
+        </header>
+
+        <div style="text-align: center;">
+            <nav>
+                <a href="#overview">프로젝트 개요</a>
+                <a href="#architecture">아키텍처</a>
+                <a href="#code-deep-dive">코드 분석</a>
+                <a href="#assets">디자인 & 에셋</a>
+            </nav>
+        </div>
+
+        <section id="overview">
+            <div class="card">
+                <h2>1. 프로젝트 개요 (Overview)</h2>
+                <p><strong>고양이 테트리스(Cat Tetris)</strong>는 고전적인 테트리스 게임 플레이 방식에 현대적인 웹 기술과 귀여운 고양이 테마를 결합한 웹 기반 게임입니다.
+                </p>
+
+                <div class="highlight-box">
+                    <strong>핵심 목표:</strong>
+                    <ul>
+                        <li>단순한 웹 게임을 넘어선 <strong>프리미엄한 사용자 경험(UX)</strong> 제공</li>
+                        <li><strong>이중 언어(한국어/영어)</strong> 실시간 전환 지원</li>
+                        <li>HTML5 Canvas API를 활용한 <strong>고성능 렌더링</strong></li>
+                        <li>모바일 및 데스크탑 환경을 고려한 <strong>반응형 디자인</strong></li>
+                    </ul>
+                </div>
+
+                <h3>개발 변천사 (Evolution)</h3>
+                <p>이 프로젝트는 세 단계의 진화를 거쳤습니다:</p>
+                <ol>
+                    <li><strong>초기 단계:</strong> Chrome Extension (Action Button Config) - <em>폐기됨</em></li>
+                    <li><strong>중기 단계:</strong> Neon Tetris (사이버펑크 스타일) - <em>독립 실행형으로 전환</em></li>
+                    <li><strong>최종 단계:</strong> Cat Tetris (현재 버전) - <em>따뜻한 파스텔톤과 캐릭터 중심 디자인</em></li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="architecture">
+            <div class="card">
+                <h2>2. 기술 아키텍처 (Architecture)</h2>
+                <p>프로젝트는 외부 라이브러리 의존성 없이 <strong>Vanilla HTML, CSS, JavaScript</strong>만으로 구축되었습니다. 이는 게임의 로딩 속도를 최적화하고
+                    코드의 투명성을 보장합니다.</p>
+
+                <h3>파일 구조 (File Structure)</h3>
+                <pre><code class="language-tree">
+/Users/tagg/dev/tetris/
+├── index.html       # 게임의 진입점 및 DOM 구조
+├── style.css        # 비주얼 스타일링 (CSS Variables 활용)
+├── script.js        # 핵심 게임 로직 (Game Loop, Canvas Rendering)
+├── literal.js       # 다국어 지원 (i18n) 데이터
+└── assets/          # 이미지 리소스
+    ├── cat_liquid_sprites_strip.png  # 블록 스프라이트
+    └── cute_cat_background.png       # 배경 패턴
+            </code></pre>
+
+                <h3>핵심 기술 스택</h3>
+                <ul>
+                    <li><strong>HTML5 Canvas:</strong> <code>requestAnimationFrame</code>을 사용한 60FPS 게임 루프 구현.</li>
+                    <li><strong>CSS Variables:</strong> 테마 색상 및 스타일의 중앙 집중식 관리.</li>
+                    <li><strong>Local Storage (예정):</strong> 사용자 점수 및 설정 저장용.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="code-deep-dive">
+            <div class="card">
+                <h2>3. 소스 코드 심층 분석 (Code Deep Dive)</h2>
+
+                <h3>A. 게임 루프와 시간 제어 (Game Loop)</h3>
+                <p><code>script.js</code>의 핵심은 <code>update()</code> 함수입니다. 이 함수는 프레임마다 호출되며 게임의 상태를 갱신합니다.</p>
+                <pre><code class="language-javascript">
+// 시간 기반 업데이트를 통한 프레임 속도 독립성 보장
+function update(time = 0) {
+    if (isPaused || isGameOver || !gameStarted) return;
+    
+    // 이전 프레임과의 시간 차(deltaTime)를 계산
+    const deltaTime = time - lastTime;
+    lastTime = time;
+
+    // 누적 시간이 설정된 간격(dropInterval)을 넘으면 블록 하강
+    dropCounter += deltaTime;
+    if (dropCounter > dropInterval) {
+        playerDrop();
+    }
+
+    draw(); // 캔버스 다시 그리기
+    animationId = requestAnimationFrame(update);
+}
+            </code></pre>
+
+                <h3>B. 스프라이트 렌더링 시스템 (Sprite Rendering)</h3>
+                <p>단순한 색상 블록 대신 이미지를 사용하며, <code>Grid</code> 형태와 <code>Strip</code> 형태의 스프라이트 시트를 모두 지원하는 지능형 렌더링 로직을
+                    구현했습니다.</p>
+                <pre><code class="language-javascript">
+// 이미지의 가로세로 비율(Assets Aspect Ratio)을 분석하여 레이아웃 자동 감지
+const ratio = spriteSheet.width / spriteSheet.height;
+if (ratio >= 6) {
+    spriteLayout = 'strip'; // 7x1 가로 스트립 (고양이 7마리 일렬)
+} else {
+    spriteLayout = 'grid'; // 3x3 그리드 형태
+}
+
+// 렌더링 시
+function drawBlock(ctx, x, y, value) {
+    // ...계산된 sx, sy 좌표로 캔버스에 이미지 조각 그리기
+    ctx.drawImage(spriteSheet, sx, sy, sw, sh, x, y, 1, 1);
+}
+            </code></pre>
+
+                <h3>C. 다국어 지원 (Localization)</h3>
+                <p><code>literal.js</code>에 언어팩을 정의하고 DOM 요소의 ID와 매핑하여 실시간 전환을 구현했습니다.</p>
+                <pre><code class="language-javascript">
+const LABELS = {
+    ko: { title: "고양이 테트리스", start: "게임 시작", ... },
+    en: { title: "CAT TETRIS", start: "START MEOW", ... }
+};
+
+function updateText() {
+    // 매핑 테이블을 순회하며 DOM 텍스트 업데이트
+    for (const [id, key] of Object.entries(map)) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = getLabel(key);
+    }
+}
+            </code></pre>
+            </div>
+        </section>
+
+        <section id="assets">
+            <div class="card">
+                <h2>4. 디자인 및 에셋 (Design & Assets)</h2>
+                <p>사용자 경험의 핵심인 "귀여움"을 기술적으로 구현하기 위해 다음과 같은 전략을 사용했습니다.</p>
+
+                <h3>Liquid Cat Concept</h3>
+                <p>"고양이는 액체다(Cats are Liquid)"라는 인터넷 밈에서 착안하여, 테트리스 블록(상자) 안에 꽉 끼어있는 고양이의 모습을 형상화했습니다. 이는 사각형 블록이라는 게임의
+                    제약조건을 캐릭터성과 연결한 기획입니다.</p>
+
+                <h3>CSS Glassmorphism & Wood</h3>
+                <p>따뜻한 감성을 위해 <code>wood-panel</code> 클래스로 나무 질감을 표현하고, <code>overlay</code> 요소에는 반투명한 블러
+                    효과(backdrop-filter가 아닌 rgba 투명도 활용)를 사용하여 모던함을 더했습니다.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>Created by <strong>ANTIGRAVITY</strong> for User Tagg | 2026</p>
+            <p>This project is part of an advanced agentic coding demonstration.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+</body>
+
+</html>
