@@ -1,0 +1,282 @@
+/* --- MOBILE RESPONSIVE STYLES --- */
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        /* Allow scrolling on small screens */
+        display: block;
+        /* Remove flex centering */
+        padding: 10px;
+    }
+
+    .header-row {
+        flex-direction: row;
+        /* Horizontal row */
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        /* Wrap if too small */
+    }
+
+    /* Wrap Button groups */
+    .header-row>div:nth-child(3) {
+        order: 2;
+        /* Put buttons below title if narrow? Or stack */
+    }
+
+    header {
+        order: 1;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    #sound-btn {
+        display: none;
+        /* Hide sound btn to save space? Or move it. */
+    }
+
+    /* Let's keep sound button but make it smaller (icon only) */
+
+    header h1 {
+        font-size: 2.0rem;
+        /* Compact title */
+        white-space: normal;
+    }
+
+    .main-layout {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 15px;
+    }
+
+    /* Panels Order: 1. Left(Stats), 2. Board, 3. Right(Next/Controls) */
+    .left-panel,
+    .right-panel {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+        order: 1;
+        /* Both panels go above? No. */
+    }
+
+    .left-panel {
+        order: 1;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .game-board-container {
+        order: 2;
+        width: 100%;
+        max-width: 360px;
+        margin: 5px 0;
+        padding: 10px;
+        margin-bottom: 20px;
+        /* Space for controls */
+    }
+
+    .right-panel {
+        order: 3;
+        display: none;
+        /* Hide standard right panel controls as they are keyboard based */
+        /* BUT SHOW NEXT PIECE! */
+        /* Move "Next Piece" to Left Panel area? Or create a custom mobile layout */
+        /* Let's show Next Piece in Right Panel but hide Controls List */
+    }
+
+    /* Special Handling: Move Next Panel to Left Panel area visually? */
+    /* Or keep Left Panel = Hold, Score. Right Panel displayed=flex, but only Next visible */
+
+    .right-panel {
+        display: flex;
+        /* Restore flex */
+        order: 1;
+        /* Move alongside Left Panel? */
+        /* Let's put Hold (Left), Next (Right) side by side on top */
+        /* Score below them? */
+    }
+
+    /* Let's try to put panels in a grid on top */
+    /* .left-panel contains .hold-panel, .score-panel */
+    /* .right-panel contains .next-panel, .controls-info */
+
+    /* We want: Row 1: Hold | Next. Row 2: Score. */
+
+    .left-panel .hold-panel {
+        order: 1;
+        width: 45%;
+    }
+
+    .right-panel .next-panel {
+        order: 2;
+        width: 45%;
+        display: block !important;
+    }
+
+    /* This requires moving elements in HTML or complex CSS flex logic. */
+    /* Easiest: Left Panel (Row) -> Hold, Score. Right Panel (Row) -> Next. */
+    /* Result: Hold | Score. Line break. Next. */
+    /* Better: Hold | Next. Line Break. Score. */
+
+    /* I'll use specific selectors if possible. */
+
+    .wood-panel {
+        width: 45%;
+        padding: 5px;
+    }
+
+    .score-panel {
+        width: 100%;
+        /* Full width score */
+        order: 3;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .score-panel h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0;
+        margin-right: 5px;
+    }
+
+    .score-panel div {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+        display: inline-block;
+    }
+
+    /* Hide Keyboard Controls */
+    .controls-info {
+        display: none !important;
+    }
+
+    /* Adjust Canvas scaling */
+    canvas#tetris {
+        width: 100%;
+        height: auto;
+    }
+
+    .game-container {
+        transform: none !important;
+        padding: 10px;
+        width: 100%;
+        border-width: 4px;
+    }
+
+    .overlay h2 {
+        font-size: 2rem;
+    }
+
+    .mobile-controls {
+        display: grid !important;
+    }
+
+    .cat-ears {
+        top: -30px;
+        transform: scale(0.6);
+    }
+
+    .mascot-overlay {
+        top: -65px;
+        transform: translateX(-50%) scale(0.6);
+    }
+}
+
+/* Mobile Controls Styling (Hidden on Desktop) */
+.mobile-controls {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 8px;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 340px;
+    padding-bottom: 20px;
+    /* Safe area */
+}
+
+.control-btn {
+    background: var(--panel-bg);
+    border: 3px solid var(--wood-border);
+    border-radius: 12px;
+    /* Smaller radius */
+    color: var(--wood-border);
+    font-size: 1.4rem;
+    padding: 15px 0;
+    font-family: 'Gaegu', cursive;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #8d6e63;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    /* No select */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.control-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+    background: #ffccbc;
+}
+
+/* Specific Layout */
+/* Grid: 3 cols. */
+/* Row 1: Left, Rotate, Right */
+/* Row 2: Hold, Down, Drop */
+
+#btn-left {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#btn-rotate {
+    grid-column: 2;
+    grid-row: 1;
+    background: #fff9c4;
+}
+
+/* Yellow for rotate */
+#btn-right {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+#btn-hold {
+    grid-column: 1;
+    grid-row: 2;
+    background: #e1bee7;
+}
+
+/* Purple for hold */
+#btn-down {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#btn-drop {
+    grid-column: 3;
+    grid-row: 2;
+    background: #ffab91;
+    color: white;
+    border-color: #d84315;
+    box-shadow: 0 4px 0 #bf360c;
+}
+
+/* Red for Drop */
+
+/* Make icons bigger */
+.control-btn span {
+    pointer-events: none;
+    font-size: 1.8rem;
+}

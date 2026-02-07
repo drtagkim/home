@@ -607,6 +607,34 @@ document.addEventListener('keydown', event => {
     }
 });
 
+// --- MOBILE TOUCH CONTROLS ---
+function setupMobileControls() {
+    const bindBtn = (id, action) => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+
+        // Prevent double firing on touch devices
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Stop mouse emulation
+            if (!gameStarted || isPaused || isGameOver || isAnimating) return;
+            action();
+        }, { passive: false });
+
+        btn.addEventListener('click', (e) => {
+            if (!gameStarted || isPaused || isGameOver || isAnimating) return;
+            action();
+        });
+    };
+
+    bindBtn('btn-left', () => playerMove(-1));
+    bindBtn('btn-right', () => playerMove(1));
+    bindBtn('btn-rotate', () => playerRotate(1));
+    bindBtn('btn-down', () => playerDrop()); // Soft drop one step
+    bindBtn('btn-drop', () => playerHardDrop());
+    bindBtn('btn-hold', () => playerHold());
+}
+setupMobileControls();
+
 function togglePause() {
     if (isGameOver || !gameStarted) return;
     isPaused = !isPaused;
