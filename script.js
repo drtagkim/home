@@ -611,25 +611,32 @@ document.addEventListener('keydown', event => {
 function setupMobileControls() {
     const bindBtn = (id, action) => {
         const btn = document.getElementById(id);
-        if (!btn) return;
+        if (!btn) {
+            console.error('Mobile button not found:', id);
+            return;
+        }
 
-        // Prevent double firing on touch devices
-        btn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Stop mouse emulation
-            if (!gameStarted || isPaused || isGameOver || isAnimating) return;
-            action();
-        }, { passive: false });
+        // Use 'pointerdown' for better cross-device support (mouse + touch)
+        // This is modern standard and avoids ghost clicks
+        btn.addEventListener('pointerdown', (e) => {
+            e.preventDefault(); // Stop default touch actions (scrolling/zoom)
 
-        btn.addEventListener('click', (e) => {
-            if (!gameStarted || isPaused || isGameOver || isAnimating) return;
+            // Allow controls even if game is just starting or running
+            if (isGameOver || isPaused) return;
+            if (!gameStarted) return; // But must be started
+
             action();
+
+            // Add visual feedback class
+            btn.classList.add('active');
+            setTimeout(() => btn.classList.remove('active'), 100);
         });
     };
 
     bindBtn('btn-left', () => playerMove(-1));
     bindBtn('btn-right', () => playerMove(1));
     bindBtn('btn-rotate', () => playerRotate(1));
-    bindBtn('btn-down', () => playerDrop()); // Soft drop one step
+    bindBtn('btn-down', () => playerDrop());
     bindBtn('btn-drop', () => playerHardDrop());
     bindBtn('btn-hold', () => playerHold());
 }
@@ -666,6 +673,20 @@ document.getElementById('music-style-btn').addEventListener('click', (e) => {
     e.target.innerText = mode === 'wav' ? '🎸 Real Music' : '😺 8-Bit';
 });
 document.getElementById('resume-btn').addEventListener('click', togglePause);
+// --- DEV INFO MODAL ---
+const devModal = document.getElementById('dev-modal');
+document.getElementById('dev-info-btn').addEventListener('click', () => {
+    // Only open if not playing or paused? Or always?
+    // Let's allow always, it pauses game if playing
+    if (gameStarted && !isPaused && !isGameOver) {
+        togglePause();
+    }
+    devModal.classList.remove('hidden');
+});
+
+document.getElementById('close-dev-btn').addEventListener('click', () => {
+    devModal.classList.add('hidden');
+});
 document.getElementById('lang-btn').addEventListener('click', toggleLanguage);
 
 updateText();

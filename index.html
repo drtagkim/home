@@ -22,7 +22,10 @@
     <div class="game-container">
         <!-- New Header Layout for Symmetry -->
         <div class="header-row">
-            <button id="sound-btn" class="icon-btn">🔊 Sound On</button>
+            <div style="display:flex; gap:10px;">
+                <button id="sound-btn" class="icon-btn">🔊 Sound On</button>
+                <button id="dev-info-btn" class="icon-btn">👨‍💻 Dev Info</button>
+            </div>
             <header>
                 <h1 id="title-text">고양이 테트리스</h1>
             </header>
@@ -33,83 +36,103 @@
         </div>
 
         <div class="main-layout">
-            <div class="left-panel">
-                <div class="wood-panel hold-panel">
-                    <h3 id="label-hold">HOLD!</h3>
-                    <canvas id="hold-canvas" width="150" height="150"></canvas>
-                </div>
+            <!-- ... (rest of layout) ... -->
 
-                <div class="wood-panel score-panel">
-                    <h3 id="label-score">SCORE</h3>
-                    <div id="score">0</div>
-                    <h3 id="label-level">LEVEL</h3>
-                    <div id="level">1</div>
-                    <h3 id="label-lines">LINES</h3>
-                    <div id="lines">0</div>
-                </div>
-            </div>
-
-            <div class="game-board-container">
-                <div class="cat-ears"></div>
-
-                <!-- MASCOT CANVAS -->
-                <canvas id="mascot-canvas" width="120" height="100" class="mascot-overlay"></canvas>
-
-                <canvas id="tetris" width="360" height="600"></canvas>
-
-                <div id="game-start" class="overlay">
-                    <div class="cat-face-big"></div>
-                    <button id="start-btn" class="cat-btn">GAME START</button>
-                </div>
-
-                <div id="game-over" class="overlay hidden">
-                    <h2 id="game-over-title">GAME OVER</h2>
-                    <p class="final-score-display">Score: <span id="final-score">0</span></p>
-                    <button id="restart-btn" class="cat-btn">TRY AGAIN</button>
-                </div>
-
-                <div id="pause-screen" class="overlay hidden">
-                    <h2 id="pause-title">PAUSED</h2>
-                    <button id="resume-btn" class="cat-btn">RESUME</button>
-                </div>
-
-                <!-- Mobile Touch Controls -->
-                <div class="mobile-controls">
-                    <button id="btn-left" class="control-btn"><span>⬅️</span></button>
-                    <button id="btn-rotate" class="control-btn"><span>🔃</span></button>
-                    <button id="btn-right" class="control-btn"><span>➡️</span></button>
-
-                    <button id="btn-hold" class="control-btn"><span>C</span></button>
-                    <button id="btn-down" class="control-btn"><span>⬇️</span></button>
-                    <button id="btn-drop" class="control-btn"><span>🚀</span></button>
+            <!-- Developer Info Modal -->
+            <div id="dev-modal" class="overlay hidden">
+                <div class="modal-content">
+                    <img src="assets/two_winking_cats.png" alt="Two Winking Cats"
+                        style="max-width: 200px; margin-bottom: 20px;">
+                    <p style="font-size: 1.2rem; line-height: 1.6; color: #5d4037; font-weight: bold;">
+                        2026년 2월 어느날,<br>
+                        김태경과 권욱이 여의도에 모여<br>
+                        공부한 것을 기념하며...<br>
+                        <br>
+                        Taekyung Kim, Prof. KHU
+                    </p>
+                    <button id="close-dev-btn" class="cat-btn"
+                        style="padding: 10px 30px; font-size: 1.2rem; margin-top: 15px;">Close</button>
                 </div>
             </div>
 
-            <div class="right-panel">
-                <div class="wood-panel next-panel">
-                    <h3 id="label-next">NEXT</h3>
-                    <canvas id="next-canvas" width="150" height="150"></canvas>
+            <div class="main-layout">
+                <div class="left-panel">
+                    <div class="wood-panel hold-panel">
+                        <h3 id="label-hold">HOLD!</h3>
+                        <canvas id="hold-canvas" width="150" height="150"></canvas>
+                    </div>
+
+                    <div class="wood-panel score-panel">
+                        <h3 id="label-score">SCORE</h3>
+                        <div id="score">0</div>
+                        <h3 id="label-level">LEVEL</h3>
+                        <div id="level">1</div>
+                        <h3 id="label-lines">LINES</h3>
+                        <div id="lines">0</div>
+                    </div>
                 </div>
 
-                <div class="wood-panel controls-info">
-                    <h3 id="label-controls">CONTROLS</h3>
-                    <ul>
-                        <li><span>← →</span> <span id="ctrl-move">Move</span></li>
-                        <li><span>↑</span> <span id="ctrl-rotate">Rotate</span></li>
-                        <li><span>↓</span> <span id="ctrl-soft">Soft Drop</span></li>
-                        <li><span>Space</span> <span id="ctrl-hard">Hard Drop</span></li>
-                        <li><span>C</span> <span id="ctrl-hold">Hold</span></li>
-                        <li><span>P</span> <span id="ctrl-pause">Pause</span></li>
-                    </ul>
+                <div class="game-board-container">
+                    <div class="cat-ears"></div>
+
+                    <!-- MASCOT CANVAS -->
+                    <canvas id="mascot-canvas" width="120" height="100" class="mascot-overlay"></canvas>
+
+                    <canvas id="tetris" width="360" height="600"></canvas>
+
+                    <div id="game-start" class="overlay">
+                        <div class="cat-face-big"></div>
+                        <button id="start-btn" class="cat-btn">GAME START</button>
+                    </div>
+
+                    <div id="game-over" class="overlay hidden">
+                        <h2 id="game-over-title">GAME OVER</h2>
+                        <p class="final-score-display">Score: <span id="final-score">0</span></p>
+                        <button id="restart-btn" class="cat-btn">TRY AGAIN</button>
+                    </div>
+
+                    <div id="pause-screen" class="overlay hidden">
+                        <h2 id="pause-title">PAUSED</h2>
+                        <button id="resume-btn" class="cat-btn">RESUME</button>
+                    </div>
+
+                    <!-- Mobile Touch Controls -->
+                    <div class="mobile-controls">
+                        <button id="btn-left" class="control-btn"><span>⬅️</span></button>
+                        <button id="btn-rotate" class="control-btn"><span>🔃</span></button>
+                        <button id="btn-right" class="control-btn"><span>➡️</span></button>
+
+                        <button id="btn-hold" class="control-btn"><span>C</span></button>
+                        <button id="btn-down" class="control-btn"><span>⬇️</span></button>
+                        <button id="btn-drop" class="control-btn"><span>🚀</span></button>
+                    </div>
+                </div>
+
+                <div class="right-panel">
+                    <div class="wood-panel next-panel">
+                        <h3 id="label-next">NEXT</h3>
+                        <canvas id="next-canvas" width="150" height="150"></canvas>
+                    </div>
+
+                    <div class="wood-panel controls-info">
+                        <h3 id="label-controls">CONTROLS</h3>
+                        <ul>
+                            <li><span>← →</span> <span id="ctrl-move">Move</span></li>
+                            <li><span>↑</span> <span id="ctrl-rotate">Rotate</span></li>
+                            <li><span>↓</span> <span id="ctrl-soft">Soft Drop</span></li>
+                            <li><span>Space</span> <span id="ctrl-hard">Hard Drop</span></li>
+                            <li><span>C</span> <span id="ctrl-hold">Hold</span></li>
+                            <li><span>P</span> <span id="ctrl-pause">Pause</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="literal.js"></script>
-    <script src="sound.js"></script>
-    <script src="mascot.js"></script>
-    <script src="script.js"></script>
+        <script src="literal.js"></script>
+        <script src="sound.js"></script>
+        <script src="mascot.js"></script>
+        <script src="script.js"></script>
 </body>
 
 </html>
