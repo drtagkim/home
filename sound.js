@@ -9,7 +9,8 @@ class SoundManager {
         this.isPlayingBGM = false;
 
         // Audio File Setup for BGM
-        this.bgmAudio = new Audio('assets/sound.wav');
+        // Append timestamp to force reload of new file
+        this.bgmAudio = new Audio('assets/sound.wav?v=' + new Date().getTime());
         this.bgmAudio.loop = true;
         this.bgmAudio.volume = 0.4; // Initial volume
 
