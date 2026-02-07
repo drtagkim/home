@@ -314,18 +314,57 @@ function merge(arena, player) {
     });
 }
 
+let lockDelay = 0;
+const LOCK_DELAY_LIMIT = 500; // 0.5 seconds
+
 function playerDrop() {
     player.pos.y++;
     if (collide(arena, player)) {
         player.pos.y--;
+
+        // --- LOCK DELAY LOGIC ---
+        // Instead of immediate merge, we wait
+        if (lockDelay < LOCK_DELAY_LIMIT) {
+            // If we are grounded, increment lock delay by drop interval (or frame time)
+            // But playerDrop is called every `dropInterval`.
+            // So we can just check if we exceeded limit?
+            // A better way for smooth lock delay: 
+            // We return and let the next update loop handle it? 
+            // But we need to accumulate time.
+
+            // Actually, we should just return here and let the `update` loop call playerDrop again.
+            // But we need to track how long we've been stuck.
+            // Let's use `dt` from update loop?
+            // Simpler: We just don't merge yet, but we enforce merge if it happens too many times?
+
+            // Standard approach: Reset lock time on successful move.
+            // Here: We increment lock time.
+
+            // Since playerDrop is called by the interval, we can use that.
+            // But user might be rotating quickly.
+
+            // Let's use a timestamp approach in `update()` instead.
+            // But to keep it simple within this function structure:
+
+            // We'll use a global `lockTimer` that accumulates in `update()`.
+            // Here we just signal "grounded".
+            return;
+        }
+
+        // If Delay Exceeded:
         merge(arena, player);
         sounds.playDrop(); // Sound
         playerReset();
         checkLines();
         updateScore();
         canHold = true;
+        lockDelay = 0; // Reset
+    } else {
+        // Falling freely
+        dropCounter = 0;
+        // lockDelay should be reset if we fall successfully?
+        lockDelay = 0;
     }
-    dropCounter = 0;
 }
 
 function playerHardDrop() {
@@ -566,17 +605,60 @@ function update(time = 0) {
         if (time - animationStartTime > ANIMATION_DURATION) {
             finalizeClear();
         }
-        draw();
     } else {
         dropCounter += deltaTime;
         if (dropCounter > dropInterval) {
             playerDrop();
         }
-        draw();
+
+        // Lock Delay Calculation
+        // Check if player is on ground
+        player.pos.y++;
+        if (collide(arena, player)) {
+            lockDelay += deltaTime;
+            if (lockDelay > LOCK_DELAY_LIMIT) {
+                // Force drop/merge
+                player.pos.y--; // restore
+                playerDrop(); // calls collision logic -> merge
+            }
+        } else {
+            lockDelay = 0; // In air
+        }
+        player.pos.y--; // Restore
+
     }
+    draw();
     animationId = requestAnimationFrame(update);
 }
 
+function playerMove(dir) {
+    player.pos.x += dir;
+    if (collide(arena, player)) {
+        player.pos.x -= dir;
+    } else {
+        sounds.playMove();
+        lockDelay = 0; // Reset lock delay on move (Infinity Rule-ish)
+    }
+}
+
+function playerRotate(dir) {
+    const pos = player.pos.x;
+    let offset = 1;
+    rotate(player.matrix, dir);
+    while (collide(arena, player)) {
+        player.pos.x += offset;
+        offset = -(offset + (offset > 0 ? 1 : -1));
+        if (offset > player.matrix[0].length) {
+            rotate(player.matrix, -dir);
+            player.pos.x = pos;
+            return;
+        }
+    }
+    sounds.playRotate();
+    lockDelay = 0; // Reset lock delay on rotate
+}
+
+// --- RE-ADD KEYBOARD CONTROLS ---
 document.addEventListener('keydown', event => {
     if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
         event.preventDefault();
@@ -606,7 +688,6 @@ document.addEventListener('keydown', event => {
         playerHold();
     }
 });
-
 // --- MOBILE TOUCH CONTROLS ---
 function setupMobileControls() {
     const bindBtn = (id, action) => {
